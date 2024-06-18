@@ -1,4 +1,6 @@
 "use client";
+import { AttachmentsSlider } from "@/app/components/AttachmentsSlider";
+import { Heart } from "@/app/components/Icons/Heart";
 import { Spinner } from "@/app/components/Spinner";
 import { Post } from "@/types";
 import { getAuth, getPostById, getToken } from "@/utils/api";
@@ -72,15 +74,8 @@ export default function Page({ params }: { params: { slug: string } }) {
                     })}
                   </span>
                 </div>
-
                 <div className="flex items-center">
-                  <svg
-                    className="text-red-500 mr-1 w-6 h-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                  </svg>
+                  <Heart />
                   <span className="text-gray-700">{page.likes}</span>
                 </div>
               </div>
@@ -89,44 +84,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               <p className="mb-3 font-normal text-gray-700">
                 {page.description}
               </p>
-              {page.attachments.length > 0 &&
-                page.attachments.some(
-                  (attachment) => attachment.resource_type === "asset",
-                ) && (
-                  <h2 className="mb-2 font-bold tracking-tight text-gray-900">
-                    Attachments
-                  </h2>
-                )}
-              {page.attachments.map((attachment, index) => {
-                if (attachment.kind === "post_image") {
-                  return (
-                    <div key={index} className="my-2">
-                      <Image
-                        src={attachment.uri}
-                        alt={`Attachment ${index + 1}`}
-                        width={500}
-                        height={300}
-                        className="rounded-lg"
-                      />
-                    </div>
-                  );
-                } else if (attachment.kind === "post_video") {
-                  return (
-                    <div key={index} className="my-2">
-                      <video
-                        controls
-                        width="500"
-                        height="300"
-                        className="rounded-lg"
-                        poster={attachment.thumbnail_uri}
-                      >
-                        <source src={attachment.uri} type="video/mp4" />
-                        Your browser does not support the video tag.
-                      </video>
-                    </div>
-                  );
-                }
-              })}
+              <AttachmentsSlider attachments={page.attachments} />
             </div>
           </div>
         )

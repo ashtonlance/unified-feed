@@ -15,4 +15,12 @@ export interface Post {
   };
   created_at: string;
   likes: number;
+  liked: boolean;
+}
+
+export interface Attachment {
+  kind: string;
+  uri: string;
+  description?: string;
+  thumbnail_uri?: string;
 }
