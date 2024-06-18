@@ -3,16 +3,7 @@ import { PostItem } from "@/app/components/PostItem";
 import { Spinner } from "@/app/components/Spinner";
 import { Post } from "@/types";
 import { getAuth, getFeed, getToken } from "@/utils/api";
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-// Setup Axios interceptors to automatically add the Authorization header to requests
-axios.interceptors.request.use((config) => {
-  const token = getToken();
-  if (token) {
-    config.headers["Authorization"] = `Bearer ${token}`;
-  }
-  return config;
-});
 
 export default function Home() {
   const [feed, setFeed] = useState<{

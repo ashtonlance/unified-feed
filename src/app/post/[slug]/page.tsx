@@ -5,19 +5,9 @@ import { Spinner } from "@/app/components/Spinner";
 import { Post } from "@/types";
 import { getAuth, getPostById, getToken } from "@/utils/api";
 import { formatDate } from "@/utils/dates";
-import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-// Setup axios interceptors to automatically add Authorization header to requests
-axios.interceptors.request.use((config) => {
-  const token = getToken();
-  if (token) {
-    config.headers["Authorization"] = `Bearer ${token}`;
-  }
-  return config;
-});
 
 export default function Page({ params }: { params: { slug: string } }) {
   const [page, setPage] = useState<Post | null>(null);

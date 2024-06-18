@@ -1,6 +1,15 @@
 import config from "@/config";
 import axios from "axios";
 
+// Setup Axios interceptors to automatically add the Authorization header to requests
+axios.interceptors.request.use((config) => {
+  const token = getToken();
+  if (token) {
+    config.headers["Authorization"] = `Bearer ${token}`;
+  }
+  return config;
+});
+
 export const getAuth = async () => {
   try {
     const formData = new URLSearchParams();
