@@ -46,15 +46,23 @@ export const PostItem = memo(({ post }: { post: Post }) => (
           {post.title}
         </h2>
         <p className="mb-3 font-normal text-gray-700">{post.description}</p>
+        {post.attachments.length > 0 &&
+          post.attachments.some(
+            (attachment) => attachment.resource_type === "asset",
+          ) && (
+            <h2 className="mb-2 font-bold tracking-tight text-gray-900">
+              Attachments
+            </h2>
+          )}
         {post.attachments.map((attachment, index) => {
           if (attachment.kind === "post_image") {
             return (
               <div key={index} className="my-2">
                 <Image
                   src={attachment.uri}
-                  alt={`Attachment ${index + 1}`}
-                  width={500} // Adjust width as necessary
-                  height={300} // Adjust height as necessary
+                  alt={`Attachment ${attachment.description || index + 1}`}
+                  width={500}
+                  height={300}
                   className="rounded-lg"
                 />
               </div>
@@ -64,8 +72,8 @@ export const PostItem = memo(({ post }: { post: Post }) => (
               <div key={index} className="my-2">
                 <video
                   controls
-                  width="500" // Adjust width as necessary
-                  height="300" // Adjust height as necessary
+                  width="500"
+                  height="300"
                   className="rounded-lg"
                   poster={attachment.thumbnail_uri} // Use thumbnail_uri as poster
                 >
