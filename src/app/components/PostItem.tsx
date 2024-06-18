@@ -1,6 +1,7 @@
 import { AttachmentsSlider } from "@/app/components/AttachmentsSlider";
 import { Heart } from "@/app/components/Icons/Heart";
 import { Post } from "@/types";
+import { formatDate } from "@/utils/dates";
 import Image from "next/image";
 import Link from "next/link";
 import { memo } from "react";
@@ -29,11 +30,7 @@ export const PostItem = memo(
                 </span>
                 {/* Display formatted date */}
                 <span className="text-sm text-gray-400">
-                  {new Date(post.created_at).toLocaleDateString("en-US", {
-                    month: "2-digit",
-                    day: "2-digit",
-                    year: "numeric",
-                  })}
+                  {formatDate(post.created_at)}
                 </span>
               </div>
             </div>

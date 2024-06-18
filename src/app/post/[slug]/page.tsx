@@ -4,6 +4,7 @@ import { Heart } from "@/app/components/Icons/Heart";
 import { Spinner } from "@/app/components/Spinner";
 import { Post } from "@/types";
 import { getAuth, getPostById, getToken } from "@/utils/api";
+import { formatDate } from "@/utils/dates";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -67,11 +68,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                     {page.author.display_name}
                   </span>
                   <span className="text-sm text-gray-500">
-                    {new Date(page.created_at).toLocaleDateString("en-US", {
-                      month: "2-digit",
-                      day: "2-digit",
-                      year: "numeric",
-                    })}
+                    {formatDate(page.created_at)}
                   </span>
                 </div>
                 <div className="flex items-center">
