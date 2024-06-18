@@ -47,7 +47,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         <Spinner />
       ) : (
         page && (
-          <div className="flex flex-col gap-4 bg-white p-5 rounded-md">
+          <div className="flex flex-col max-w-lg w-full mx-auto gap-4 bg-white p-5 rounded-md">
             {page.title && <h1 className="text-3xl font-bold">{page.title}</h1>}
             <div className="flex justify-between items-center p-5 flex-wrap gap-2">
               <div className="flex gap-4 items-center flex-wrap">
