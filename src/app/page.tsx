@@ -5,6 +5,7 @@ import { getAuth, getFeed, getToken } from "@/utils/api";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 
+// Setup Axios interceptors to automatically add the Authorization header to requests
 axios.interceptors.request.use((config) => {
   const token = getToken();
   if (token) {
@@ -22,50 +23,56 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const loader = useRef(null);
 
+  // Fetch data when the component mounts or cursor changes
   useEffect(() => {
     const fetchData = async () => {
-      await getAuth();
+      await getAuth(); // Ensure the user is authenticated
       if (getToken()) {
-        const newFeed = await getFeed(cursor);
+        // Check if token is available after authentication
+        const newFeed = await getFeed(cursor); // Fetch the feed data using the current cursor
         setFeed((prevFeed) => {
           if (prevFeed) {
+            // If previous feed data exists, append new posts to it
             return {
               posts: [...prevFeed.posts, ...newFeed.posts],
               pagination: newFeed.pagination,
             };
           } else {
+            // If no previous feed data, use new feed data
             return newFeed;
           }
         });
-        setIsLoading(false);
+        setIsLoading(false); // Set loading state to false after data is fetched
       }
     };
 
     fetchData();
   }, [cursor]);
 
+  // Intersection Observer to load more posts when the loader div is visible on screen
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && feed?.pagination.next_cursor) {
+          // If loader is visible and there is a next cursor, update the cursor state
           setCursor(feed.pagination.next_cursor);
         }
       },
       {
-        root: null,
-        rootMargin: "20px",
-        threshold: 1.0,
+        root: null, // observing in relation to the viewport
+        rootMargin: "20px", // margin around the root
+        threshold: 1.0, // trigger when 100% of the loader is visible
       },
     );
 
     const currentLoader = loader.current;
     if (currentLoader) {
-      observer.observe(currentLoader);
+      observer.observe(currentLoader); // Start observing the loader element
     }
 
     return () => {
       if (currentLoader) {
-        observer.unobserve(currentLoader);
+        observer.unobserve(currentLoader); // Clean up observer on component unmount
       }
     };
   }, [feed?.pagination.next_cursor]);
@@ -84,6 +91,7 @@ export default function Home() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
+                {/* SVG for loading spinner */}
                 <path
                   d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
                   fill="currentColor"
@@ -98,7 +106,7 @@ export default function Home() {
         ) : (
           <ul className="flex flex-col gap-4">
             {feed?.posts.map((post, idx) => (
-              <PostItem key={post.id + idx} post={post} />
+              <PostItem key={post.id + idx} post={post} /> // Use post ID and index as key for list items
             ))}
           </ul>
         )}

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+// Setup axios interceptors to automatically add Authorization header to requests
 axios.interceptors.request.use((config) => {
   const token = getToken();
   if (token) {
@@ -17,12 +18,15 @@ axios.interceptors.request.use((config) => {
 export default function Page({ params }: { params: { slug: string } }) {
   const [page, setPage] = useState<Post | null>(null);
   const router = useRouter();
+
+  // Fetch data on component mount or when params.slug changes
   useEffect(() => {
     const fetchData = async () => {
-      await getAuth();
+      await getAuth(); // Ensure the user is authenticated
       if (getToken()) {
-        const post = await getPostById(params.slug);
-        setPage(post);
+        // Check if token is available after authentication
+        const post = await getPostById(params.slug); // Fetch the post using the slug
+        setPage(post); // Set the fetched post to state
       }
     };
 
@@ -32,7 +36,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   return (
     <main className="flex min-h-screen flex-col p-4 md:p-12 lg:p-24">
       <button
-        onClick={() => router.back()}
+        onClick={() => router.back()} // Navigate back to the previous page
         className="mb-4 self-start font-medium text-blue-500 hover:text-blue-700"
       >
         Back
@@ -93,8 +97,8 @@ export default function Page({ params }: { params: { slug: string } }) {
                     <Image
                       src={attachment.uri}
                       alt={`Attachment ${index + 1}`}
-                      width={500} // Adjust width as necessary
-                      height={300} // Adjust height as necessary
+                      width={500}
+                      height={300}
                       className="rounded-lg"
                     />
                   </div>
@@ -104,8 +108,8 @@ export default function Page({ params }: { params: { slug: string } }) {
                   <div key={index} className="my-2">
                     <video
                       controls
-                      width="500" // Adjust width as necessary
-                      height="300" // Adjust height as necessary
+                      width="500"
+                      height="300"
                       className="rounded-lg"
                       poster={attachment.thumbnail_uri} // Use thumbnail_uri as poster
                     >

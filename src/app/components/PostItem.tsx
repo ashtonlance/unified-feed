@@ -8,6 +8,7 @@ export const PostItem = memo(({ post }: { post: Post }) => (
     <Link href={`/post/${post.id}`} passHref>
       <div className="flex justify-between items-center p-5 flex-wrap gap-2">
         <div className="flex gap-4 items-center flex-wrap">
+          {/* Conditional rendering: Only display the image if the profile picture URL exists */}
           {post.author.profile_pic?.uri && (
             <Image
               src={post.author.profile_pic.uri}
@@ -21,6 +22,7 @@ export const PostItem = memo(({ post }: { post: Post }) => (
             <span className="font-semibold text-gray-900">
               {post.author.display_name}
             </span>
+            {/* Display formatted date */}
             <span className="text-sm text-gray-500">
               {new Date(post.created_at).toLocaleDateString("en-US", {
                 month: "2-digit",
@@ -31,6 +33,7 @@ export const PostItem = memo(({ post }: { post: Post }) => (
           </div>
         </div>
         <div className="flex items-center">
+          {/* SVG icon for likes */}
           <svg
             className="text-red-500 mr-1 w-6 h-6"
             fill="currentColor"
@@ -46,6 +49,7 @@ export const PostItem = memo(({ post }: { post: Post }) => (
           {post.title}
         </h2>
         <p className="mb-3 font-normal text-gray-700">{post.description}</p>
+        {/* Check if there are attachments and if any of them are of type 'asset' */}
         {post.attachments.length > 0 &&
           post.attachments.some(
             (attachment) => attachment.resource_type === "asset",
@@ -54,6 +58,7 @@ export const PostItem = memo(({ post }: { post: Post }) => (
               Attachments
             </h2>
           )}
+        {/* Map through attachments and render based on their type */}
         {post.attachments.map((attachment, index) => {
           if (attachment.kind === "post_image") {
             return (
