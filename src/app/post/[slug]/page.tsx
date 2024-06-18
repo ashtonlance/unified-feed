@@ -3,6 +3,7 @@ import { Post } from "@/types";
 import { getAuth, getPostById, getToken } from "@/utils/api";
 import axios from "axios";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 axios.interceptors.request.use((config) => {
@@ -15,7 +16,7 @@ axios.interceptors.request.use((config) => {
 
 export default function Page({ params }: { params: { slug: string } }) {
   const [page, setPage] = useState<Post | null>(null);
-
+  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       await getAuth();
@@ -30,6 +31,12 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   return (
     <main className="flex min-h-screen flex-col justify-between p-24">
+      <button
+        onClick={() => router.back()}
+        className="mb-4 self-start font-medium text-blue-500 hover:text-blue-700"
+      >
+        Back
+      </button>
       {page && (
         <div className="flex flex-col gap-4 bg-white p-5 rounded-md">
           {page.title && <h1 className="text-3xl font-bold">{page.title}</h1>}
