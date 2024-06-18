@@ -30,7 +30,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   }, [params.slug]);
 
   return (
-    <main className="flex min-h-screen flex-col justify-between p-24">
+    <main className="flex min-h-screen flex-col p-4 md:p-12 lg:p-24">
       <button
         onClick={() => router.back()}
         className="mb-4 self-start font-medium text-blue-500 hover:text-blue-700"
@@ -78,6 +78,14 @@ export default function Page({ params }: { params: { slug: string } }) {
           </div>
           <div>
             <p className="mb-3 font-normal text-gray-700">{page.description}</p>
+            {page.attachments.length > 0 &&
+              page.attachments.some(
+                (attachment) => attachment.resource_type === "asset",
+              ) && (
+                <h2 className="mb-2 font-bold tracking-tight text-gray-900">
+                  Attachments
+                </h2>
+              )}
             {page.attachments.map((attachment, index) => {
               if (attachment.kind === "post_image") {
                 return (
