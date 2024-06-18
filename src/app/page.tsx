@@ -27,7 +27,6 @@ export default function Home() {
       await getAuth();
       if (getToken()) {
         const newFeed = await getFeed(cursor);
-        console.log(newFeed);
         setFeed((prevFeed) => {
           if (prevFeed) {
             return {
