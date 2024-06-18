@@ -78,6 +78,7 @@ These functions use Axios for HTTP requests and handle authentication using envi
 - **TypeScript**: Adds static typing to JavaScript, improving reliability and maintainability.
 - **Tailwind CSS**: A utility-first CSS framework for rapidly building custom designs.
 - **Axios**: A promise-based HTTP client for making requests to external APIs, offering features like interceptors, automatic transforms of JSON data, and client-side protection against XSRF.
+- **axios-cache-interceptor**: A library that adds caching to Axios requests, reducing the number of API calls and improving performance.
 
 ### Why These Choices?
 
@@ -85,6 +86,7 @@ These functions use Axios for HTTP requests and handle authentication using envi
 - **TypeScript** ensures type safety, which helps catch errors early during development.
 - **Tailwind CSS** allows for building responsive designs quickly without leaving your markup.
 - **Axios** is used for its robust handling of HTTP requests, ease of use, and ability to intercept requests and responses, which simplifies the process of adding authentication tokens and handling errors globally.
+- **axios-cache-interceptor** provides a simple way to cache API responses, reducing the number of requests made to the server and improving performance.
 
 ## Deployment
 

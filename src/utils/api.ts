@@ -1,5 +1,9 @@
 import config from "@/config";
-import axios from "axios";
+import Axios from "axios";
+import { setupCache } from "axios-cache-interceptor";
+
+const instance = Axios.create();
+const axios = setupCache(instance);
 
 // Setup Axios interceptors to automatically add the Authorization header to requests
 axios.interceptors.request.use((config) => {
@@ -24,6 +28,7 @@ export const getAuth = async () => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
+        cache: { interpretHeader: false, methods: ["post"] },
       },
     );
     localStorage.setItem("access_token", response.data.access_token);
