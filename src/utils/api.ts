@@ -70,3 +70,23 @@ export const getPostById = async (postId: string) => {
 export const getToken = () => {
   return localStorage.getItem("access_token");
 };
+
+export const submitPost = async (description: string) => {
+  try {
+    const response = await axios.post(
+      `${config.API_HOST}/posts`,
+      { description },
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      },
+    );
+    console.log("Post submitted successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error submitting post:", error);
+  }
+};
